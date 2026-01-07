@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+
+<!-- XACRO description of six DOF arm -->
+<robot name="six_dof_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="cylinder_link" params="name length radius color xyz">
+        <link name="${name}">
+            <inertial>
+                <origin xyz="0 0 0"/>
+                <mass value="1.0"/>
+                <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+            </inertial>
+
+
+            <visual>
+                <origin xyz="${xyz}" rpy="0 0 0"/>
+                <geometry>
+                    <cylinder length="${length}" radius="${radius}"/>
+                </geometry>
+                <material name="${color}">
+                    <color rgba="${color}"/>
+                </material>
+            </visual>
+
+            <collision>
+                <origin xyz="${xyz}" rpy="0 0 0"/>
+                <geometry>
+                    <cylinder length="${length}" radius="${radius}"/>
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+
+
+    <xacro:macro name="revolute_joint" params="name parent child xyz axis lower upper">
+        <joint name="${name}" type="revolute">
+            <parent link="${parent}"/>
+            <child link="${child}"/>
+            <origin xyz="${xyz}" rpy="0 0 0"/>
+            <axis xyz="${axis}"/>
+            <limit lower="${lower}" upper="${upper}" effort="10" velocity="1"/>
+            <dynamics damping="0.1" friction="0.01"/>
+        </joint>
+    </xacro:macro>
+
+    <link name="world"/>
+
+    <xacro:cylinder_link name="base_link" length="0.2" radius="0.2" color="0.6 0.6 0.6 1" xyz="0 0 0.1"/>
+
+    <joint name="world_joint" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <xacro:cylinder_link name="link1" length="0.2" radius="0.05" color="0 0 1 1" xyz="0 0 0.1"/>
+
+    <xacro:revolute_joint name="joint1" parent="base_link" child="link1" xyz="0 0 0.2" axis="0 0 1" lower="-1.57" upper="1.57"/>
+
+    <xacro:cylinder_link name="link2" length="0.5" radius="0.04" color="0 1 0 1" xyz="0 0 0.25"/>
+
+    <xacro:revolute_joint name="joint2" parent="link1" child="link2" xyz="0 0 0.2" axis="0 1 0" lower="-1.57" upper="1.57"/>
+
+    <xacro:cylinder_link name="link3" length="0.4" radius="0.035" color="1 0 0 1" xyz="0 0 0.2"/>
+
+    <xacro:revolute_joint name="joint3" parent="link2" child="link3" xyz="0 0 0.5" axis="0 1 0" lower="-1.57" upper="1.57"/>
+
+    <xacro:cylinder_link name="link4" length="0.4" radius="0.035" color="1 0 1 1" xyz="0 0 0.2"/>
+
+    <xacro:revolute_joint name="joint4" parent="link3" child="link4" xyz="0 0 0.4" axis="0 1 0" lower="-1.57" upper="1.57"/>
+
+    <xacro:cylinder_link name="link5" length="0.2" radius="0.035" color="1 1 0 1" xyz="0 0 0.1"/>
+
+    <xacro:revolute_joint name="joint5" parent="link4" child="link5" xyz="0 0 0.4" axis="0 0 1" lower="-1.57" upper="1.57"/>
+
+    <!-- <xacro:cylinder-link name="claw_link" length="0.4" radius="0.1" color="0 1 1 1" xyz="0 0 0.2"/> -->
+
+    <link name="gripper_base">
+        <inertial>
+            <origin xyz="0 0 0"/>
+            <mass value="0.5"/>
+            <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.08 0.08 0.1"/>
+            </geometry>
+            <material name="dark_gray">
+                <color rgba="0.3 0.3 0.3 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.08 0.08 0.1"/>
+            </geometry>
+        </collision>
+    </link> 
+
+    <link name="end_effector_link">
+        <inertial>
+            <origin xyz="0 0 0"/>
+            <mass value="0.1"/>
+            <inertia
+                ixx="0.001" ixy="0" ixz="0"
+                iyy="0.001" iyz="0"
+                izz="0.001"/>
+        </inertial>
+    </link>
+
+    <joint name="ee_fixed" type="fixed">
+        <parent link="gripper_base"/>
+        <child link="end_effector_link"/>
+        <origin xyz="0 0 0.15" rpy="0 0 0"/>
+    </joint>
+
+    <xacro:revolute_joint name="joint6" parent="link5" child="gripper_base" xyz="0 0 0.2" axis="1 0 0" lower="-1.57" upper="1.57"/>
+
+    <link name="left_finger">
+        <visual> 
+            <origin xyz="0 0.03 0.1" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.01 0.02 0.1"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0.03 0.1" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.01 0.02 0.1"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="left_finger_joint" type="fixed">
+        <parent link="gripper_base"/>
+        <child link="left_finger"/>
+    </joint>
+
+    <link name="right_finger">
+        <visual>
+            <origin xyz="0 -0.03 0.1" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.01 0.02 0.1"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 -0.03 0.1" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.01 0.02 0.1"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="right_finger_joint" type="fixed">
+        <parent link="gripper_base"/>
+        <child link="right_finger"/>
+    </joint>
+</robot>
