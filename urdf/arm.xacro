@@ -44,7 +44,7 @@
 
     <link name="world"/>
 
-    <xacro:cylinder_link name="base_link" length="0.2" radius="0.2" color="0.6 0.6 0.6 1" xyz="0 0 0.1"/>
+    <xacro:cylinder_link name="base_link" length="0.03" radius="0.0435" color="0.6 0.6 0.6 1" xyz="0 0 0.015"/>
 
     <joint name="world_joint" type="fixed">
         <parent link="world"/>
@@ -52,25 +52,25 @@
         <origin xyz="0 0 0" rpy="0 0 0"/>
     </joint>
 
-    <xacro:cylinder_link name="link1" length="0.2" radius="0.05" color="0 0 1 1" xyz="0 0 0.1"/>
+    <xacro:cylinder_link name="link1" length="0.065" radius="0.025" color="0 0 1 1" xyz="0 0 0.0325"/>
 
-    <xacro:revolute_joint name="joint1" parent="base_link" child="link1" xyz="0 0 0.2" axis="0 0 1" lower="-1.57" upper="1.57"/>
+    <xacro:revolute_joint name="joint1" parent="base_link" child="link1" xyz="0 0 0.03" axis="0 0 1" lower="-1.57" upper="1.57"/>
 
-    <xacro:cylinder_link name="link2" length="0.5" radius="0.04" color="0 1 0 1" xyz="0 0 0.25"/>
+    <xacro:cylinder_link name="link2" length="0.105" radius="0.025" color="0 1 0 1" xyz="0 0 0.0525"/>
 
-    <xacro:revolute_joint name="joint2" parent="link1" child="link2" xyz="0 0 0.2" axis="0 1 0" lower="-1.57" upper="1.57"/>
+    <xacro:revolute_joint name="joint2" parent="link1" child="link2" xyz="0 0 0.065" axis="0 1 0" lower="-1.57" upper="1.57"/>
 
-    <xacro:cylinder_link name="link3" length="0.4" radius="0.035" color="1 0 0 1" xyz="0 0 0.2"/>
+    <xacro:cylinder_link name="link3" length="0.145" radius="0.025" color="1 0 0 1" xyz="0 0 0.0725"/>
 
-    <xacro:revolute_joint name="joint3" parent="link2" child="link3" xyz="0 0 0.5" axis="0 1 0" lower="-1.57" upper="1.57"/>
+    <xacro:revolute_joint name="joint3" parent="link2" child="link3" xyz="0 0 0.105" axis="0 1 0" lower="-1.57" upper="1.57"/>
 
-    <xacro:cylinder_link name="link4" length="0.4" radius="0.035" color="1 0 1 1" xyz="0 0 0.2"/>
+    <xacro:cylinder_link name="link4" length="0.065" radius="0.025" color="1 0 1 1" xyz="0 0 0.0325"/>
 
-    <xacro:revolute_joint name="joint4" parent="link3" child="link4" xyz="0 0 0.4" axis="0 1 0" lower="-1.57" upper="1.57"/>
+    <xacro:revolute_joint name="joint4" parent="link3" child="link4" xyz="0 0 0.145" axis="0 1 0" lower="-1.57" upper="1.57"/>
 
-    <xacro:cylinder_link name="link5" length="0.2" radius="0.035" color="1 1 0 1" xyz="0 0 0.1"/>
+    <xacro:cylinder_link name="link5" length="0.03" radius="0.015" color="1 1 0 1" xyz="0 0 0.015"/>
 
-    <xacro:revolute_joint name="joint5" parent="link4" child="link5" xyz="0 0 0.4" axis="0 0 1" lower="-1.57" upper="1.57"/>
+    <xacro:revolute_joint name="joint5" parent="link4" child="link5" xyz="0 0 0.065" axis="0 0 1" lower="-1.57" upper="1.57"/>
 
     <!-- <xacro:cylinder-link name="claw_link" length="0.4" radius="0.1" color="0 1 1 1" xyz="0 0 0.2"/> -->
 
@@ -81,18 +81,18 @@
             <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005"/>
         </inertial>
         <visual>
-            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <origin xyz="0 0 0.0125" rpy="0 0 0"/>
             <geometry>
-                <box size="0.08 0.08 0.1"/>
+                <box size="0.025 0.055 0.025"/>
             </geometry>
             <material name="dark_gray">
                 <color rgba="0.3 0.3 0.3 1"/>
             </material>
         </visual>
         <collision>
-            <origin xyz="0 0 0.05" rpy="0 0 0"/>
+            <origin xyz="0 0 0.0125" rpy="0 0 0"/>
             <geometry>
-                <box size="0.08 0.08 0.1"/>
+                <box size="0.025 0.055 0.025"/>
             </geometry>
         </collision>
     </link> 
@@ -114,22 +114,22 @@
         <origin xyz="0 0 0.15" rpy="0 0 0"/>
     </joint>
 
-    <xacro:revolute_joint name="joint6" parent="link5" child="gripper_base" xyz="0 0 0.2" axis="1 0 0" lower="-1.57" upper="1.57"/>
+    <xacro:revolute_joint name="joint6" parent="link5" child="gripper_base" xyz="0 0 0.03" axis="1 0 0" lower="-1.57" upper="1.57"/>
 
     <link name="left_finger">
         <visual> 
-            <origin xyz="0 0.03 0.1" rpy="0 0 0"/>
+            <origin xyz="0 0.015 0.0425" rpy="0 0 0"/>
             <geometry>
-                <box size="0.01 0.02 0.1"/>
+                <box size="0.01 0.01 0.085"/>
             </geometry>
             <material name="red">
                 <color rgba="1 0 0 1"/>
             </material>
         </visual>
         <collision>
-            <origin xyz="0 0.03 0.1" rpy="0 0 0"/>
+            <origin xyz="0 0.015 0.0425" rpy="0 0 0"/>
             <geometry>
-                <box size="0.01 0.02 0.1"/>
+                <box size="0.01 0.01 0.085"/>
             </geometry>
         </collision>
     </link>
@@ -141,18 +141,18 @@
 
     <link name="right_finger">
         <visual>
-            <origin xyz="0 -0.03 0.1" rpy="0 0 0"/>
+            <origin xyz="0 -0.015 0.0425" rpy="0 0 0"/>
             <geometry>
-                <box size="0.01 0.02 0.1"/>
+                <box size="0.01 0.01 0.085"/>
             </geometry>
             <material name="red">
                 <color rgba="1 0 0 1"/>
             </material>
         </visual>
         <collision>
-            <origin xyz="0 -0.03 0.1" rpy="0 0 0"/>
+            <origin xyz="0 -0.015 0.0425" rpy="0 0 0"/>
             <geometry>
-                <box size="0.01 0.02 0.1"/>
+                <box size="0.01 0.01 0.085"/>
             </geometry>
         </collision>
     </link>
