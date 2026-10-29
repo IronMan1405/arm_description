@@ -112,7 +112,7 @@
         <origin xyz="0 0 0.0125" rpy="0 0 0"/>
     </joint>
 
-    <joint name="joint7" type="fixed">
+    <joint name="joint6" type="fixed">
         <parent link="link5"/>
         <child link="gripper_base"/>
         <origin xyz="0 0 0.06" rpy="0 0 0"/>
