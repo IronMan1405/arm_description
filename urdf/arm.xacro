@@ -4,11 +4,11 @@
 <robot name="six_dof_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:macro name="cylinder_link" params="name length radius color xyz">
         <link name="${name}">
-            <inertial>
+            <!-- <inertial>
                 <origin xyz="0 0 0"/>
                 <mass value="1.0"/>
                 <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
-            </inertial>
+            </inertial> -->
 
 
             <visual>
@@ -96,14 +96,14 @@
     </link> 
 
     <link name="end_effector_link">
-        <inertial>
+        <!-- <inertial>
             <origin xyz="0 0 0"/>
             <mass value="0.1"/>
             <inertia
                 ixx="0.001" ixy="0" ixz="0"
                 iyy="0.001" iyz="0"
                 izz="0.001"/>
-        </inertial>
+        </inertial> -->
     </link>
 
     <joint name="ee_fixed" type="fixed">
@@ -112,11 +112,7 @@
         <origin xyz="0 0 0.0125" rpy="0 0 0"/>
     </joint>
 
-    <joint name="joint6" type="fixed">
-        <parent link="link5"/>
-        <child link="gripper_base"/>
-        <origin xyz="0 0 0.06" rpy="0 0 0"/>
-    </joint>
+    <xacro:revolute_joint name="joint6" parent="link5" child="gripper_base" xyz="0 0 0.06" axis="0 0 1" lower="-1.57" upper="1.57"/>
 
     <link name="left_finger">
         <visual> 
