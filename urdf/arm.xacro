@@ -64,24 +64,22 @@
 
     <xacro:revolute_joint name="joint3" parent="link2" child="link3" xyz="0 0 0.105" axis="0 1 0" lower="-1.57" upper="1.57"/>
 
-    <xacro:cylinder_link name="link4" length="0.065" radius="0.025" color="1 0 1 1" xyz="0 0 0.0325"/>
+    <xacro:cylinder_link name="link4" length="0.02" radius="0.025" color="1 0 1 1" xyz="0 0.025 0.005"/>
 
-    <xacro:revolute_joint name="joint4" parent="link3" child="link4" xyz="0 0 0.145" axis="0 1 0" lower="-1.57" upper="1.57"/>
+    <xacro:revolute_joint name="joint4" parent="link3" child="link4" xyz="0 0.025 0.145" axis="0 1 0" lower="-1.57" upper="1.57"/>
 
-    <xacro:cylinder_link name="link5" length="0.03" radius="0.015" color="1 1 0 1" xyz="0 0 0.015"/>
+    <xacro:cylinder_link name="link5" length="0.07" radius="0.015" color="1 1 1 1" xyz="0 0 0.03"/>
 
-    <xacro:revolute_joint name="joint5" parent="link4" child="link5" xyz="0 0 0.065" axis="0 0 1" lower="-1.57" upper="1.57"/>
-
-    <!-- <xacro:cylinder-link name="claw_link" length="0.4" radius="0.1" color="0 1 1 1" xyz="0 0 0.2"/> -->
+    <xacro:revolute_joint name="joint5" parent="link4" child="link5" xyz="0 0.025 0.02" axis="1 0 0" lower="-1.57" upper="1.57"/>
 
     <link name="gripper_base">
-        <inertial>
+        <!-- <inertial>
             <origin xyz="0 0 0"/>
             <mass value="0.5"/>
             <inertia ixx="0.005" ixy="0" ixz="0" iyy="0.005" iyz="0" izz="0.005"/>
-        </inertial>
+        </inertial> -->
         <visual>
-            <origin xyz="0 0 0.0125" rpy="0 0 0"/>
+            <origin xyz="0 0 0.0175" rpy="0 0 0"/>
             <geometry>
                 <box size="0.025 0.055 0.025"/>
             </geometry>
@@ -114,16 +112,20 @@
         <origin xyz="0 0 0.0125" rpy="0 0 0"/>
     </joint>
 
-    <xacro:revolute_joint name="joint6" parent="link5" child="gripper_base" xyz="0 0 0.03" axis="1 0 0" lower="-1.57" upper="1.57"/>
+    <joint name="joint7" type="fixed">
+        <parent link="link5"/>
+        <child link="gripper_base"/>
+        <origin xyz="0 0 0.06" rpy="0 0 0"/>
+    </joint>
 
     <link name="left_finger">
         <visual> 
-            <origin xyz="0 0.015 0.0425" rpy="0 0 0"/>
+            <origin xyz="0 0.02 0.05" rpy="0 0 0"/>
             <geometry>
                 <box size="0.01 0.01 0.085"/>
             </geometry>
             <material name="red">
-                <color rgba="1 0 0 1"/>
+                <color rgba="1 0.65 0 1"/>
             </material>
         </visual>
         <collision>
@@ -134,14 +136,19 @@
         </collision>
     </link>
 
-    <joint name="left_finger_joint" type="fixed">
+    <joint name="left_finger_joint" type="prismatic">
         <parent link="gripper_base"/>
         <child link="left_finger"/>
+
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+
+        <limit lower="-0.015" upper="0" effort="10" velocity="1"/>
     </joint>
 
     <link name="right_finger">
         <visual>
-            <origin xyz="0 -0.015 0.0425" rpy="0 0 0"/>
+            <origin xyz="0 -0.02 0.05" rpy="0 0 0"/>
             <geometry>
                 <box size="0.01 0.01 0.085"/>
             </geometry>
@@ -157,9 +164,16 @@
         </collision>
     </link>
 
-    <joint name="right_finger_joint" type="fixed">
+    <joint name="right_finger_joint" type="prismatic">
         <parent link="gripper_base"/>
         <child link="right_finger"/>
+
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+
+        <limit lower="0" upper="0.015" effort="10" velocity="1"/>
+
+        <mimic joint="left_finger_joint" multiplier="-1" offset="0"/>
     </joint>
 
     <ros2_control name="ArmSystem" type="system">
